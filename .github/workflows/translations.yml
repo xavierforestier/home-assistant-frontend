@@ -5,7 +5,7 @@ on:
     - cron: "18 3 * * *"
 
 jobs:
-  fetch:
+  translations:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
@@ -21,3 +21,12 @@ jobs:
           git add translations.tar.gz
           git commit -m "[CI]Update translations" || true
           git push
+  check-release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - run: |
+          for rel in $( curl  -H "Accept: application/vnd.github+json" -s https://api.github.com/repos/xavierforestier/HomeAssistantRepository/contents/dev-python/home-assistant-frontend | jq -r '.[] | select(.name | test(".*\\.ebuild$") ) | .name' ); do
+            version=$( echo $rel | cut -d- -f4 | rev | cut -d. -f2- | rev)
+            echo $version
+          done
