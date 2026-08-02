@@ -7,10 +7,14 @@ jobs:
   fetch:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v7
       - env:
           HA_TOKEN: ${{ secrets.HA_FRONTEND_TOKEN }}
         name: Fetch last translation
         run: |
           curl  -Ls  -H "Accept: application/vnd.github+json" -H "Authorization: Bearer ${HA_TOKEN}"  $( curl  -H "Accept: application/vnd.github+json" -s https://api.github.com/repos/home-assistant/frontend/actions/artifacts?name=translations | jq -r '.artifacts[0].archive_download_url' ) -o translation.zip
+          rm translation.tar.gz || true
           unzip translation.zip && rm translation.zip
-          ls -l
+          git add translation.tar.gz
+          git commit -m "[CI]Update translations" || true
+          git push
