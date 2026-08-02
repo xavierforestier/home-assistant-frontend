@@ -37,12 +37,13 @@ jobs:
               mkdir /tmp/frontend-${version}
               pushd /tmp/frontend-${version}
               git clone https://github.com/home-assistant/frontend.git
-              cd frontend
+              cd frontend/script
               git branch ${version}
               git pull
-              ./script/setup
-              cd ..
+              ./setup
+              cd ../..
               mv frontend "frontend-${version}"
+              ls && ls *
               XZ_OPT=-9 tar -Jcvf home-assistant-frontend-${version}-nodes_modules.tar.xz frontend-${version}/nodes_modules/
               popd
               mv /tmp/home-assistant-frontend-${version}-nodes_modules.tar.xz .
