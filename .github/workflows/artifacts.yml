@@ -16,9 +16,11 @@ jobs:
           curl  -Ls  -H "Accept: application/vnd.github+json" -H "Authorization: Bearer ${HA_TOKEN}"  $( curl  -H "Accept: application/vnd.github+json" -s https://api.github.com/repos/home-assistant/frontend/actions/artifacts?name=translations | jq -r '.artifacts[0].archive_download_url' ) -o translations.zip
           rm translations.tar.gz || true
           unzip translations.zip && rm translations.zip
+          tar -xvf translations.tar.gz
+          XZ_OPT=-9 tar -Jcvf transalation.ar.xz translations
           git config --local user.name "Github automations"
           git config --local user.email "{ID}+{username}@users.noreply.github.com"
-          git add translations.tar.gz
+          git add translations.tar.xz
           git commit -m "[CI]Update translations" || true
           git push
   check-new-release:
@@ -40,7 +42,7 @@ jobs:
               git pull
               ./script/setup
               cd ..
-              XZ_OPT=-9 tar -Jcvf home-assistant-frontend-${version}-nodes_modules.tar.xz frontend-${version}/node_modules/
+              XZ_OPT=-9 tar -Jcvf home-assistant-frontend-${version}-nodes_modules.tar.xz frontend-${version}/nodes_modules/
               popd
               mv /tmp/home-assistant-frontend-${version}-nodes_modules.tar.xz .
               rm -rf /tmp/frontend-${version}
