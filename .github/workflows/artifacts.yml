@@ -45,6 +45,8 @@ jobs:
               echo "d"
               rm translations.tar.gz || true
               echo "e"
+              pwd
+              tree
               unzip translations.zip && rm translations.zip
               echo "f"
               tar -xvf translations.tar.gz
