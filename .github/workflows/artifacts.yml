@@ -36,14 +36,23 @@ jobs:
               cd frontend/script
               git branch ${version}
               git pull
+              echo "a"
               ./setup
+              echo "b"
               cd ..
+              echo "c"
               curl  -Ls  -H "Accept: application/vnd.github+json" -H "Authorization: Bearer ${HA_TOKEN}"  $( curl  -H "Accept: application/vnd.github+json" -s https://api.github.com/repos/home-assistant/frontend/actions/artifacts?name=translations | jq -r '.artifacts[0].archive_download_url' ) -o translations.zip
+              echo "d"
               rm translations.tar.gz || true
+              echo "e"
               unzip translations.zip && rm translations.zip
+              echo "f"
               tar -xvf translations.tar.gz
+              echo "g"
               cd ..
+              echo "h"
               mv frontend "frontend-${version}"
+              echo "i"
               pwd
               tree
               XZ_OPT=-9 tar -Jcvf /tmp/home-assistant-frontend-${version}-node_modules.tar.xz frontend-${version}/node_modules/
