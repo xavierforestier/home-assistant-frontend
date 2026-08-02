@@ -21,12 +21,29 @@ jobs:
           git add translations.tar.gz
           git commit -m "[CI]Update translations" || true
           git push
-  check-release:
+  check-new-release:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
       - run: |
+          git config --local user.name "Github automations"
+          git config --local user.email "{ID}+{username}@users.noreply.github.com"
           for rel in $( curl  -H "Accept: application/vnd.github+json" -s https://api.github.com/repos/xavierforestier/HomeAssistantRepository/contents/dev-python/home-assistant-frontend | jq -r '.[] | select(.name | test(".*\\.ebuild$") ) | .name' ); do
             version=$( echo $rel | cut -d- -f4 | rev | cut -d. -f2- | rev)
-            echo $version
+            if [ -f "home-assistant-frontend-${version}-nodes_modules.tar.xz" ]; then
+              mkdir /tmp/frontend-${version}
+              pushd /tmp/frontend-${version}
+              git clone https://github.com/home-assistant/frontend.git
+              git branch ${version}
+              git pull
+              ./script/setup
+              cd ..
+              XZ_OPT=-9 tar -Jcvf home-assistant-frontend-${version}-nodes_modules.tar.xz frontend-${version}/node_modules/
+              popd
+              mv /tmp/home-assistant-frontend-${version}-nodes_modules.tar.xz .
+              rm -rf /tmp/frontend-${version}
+              git add home-assistant-frontend-${version}-nodes_modules.tar.xz
+              git commit -m "[CI]New release ${version}" || true
+            fi
           done
+          git push
