@@ -41,7 +41,7 @@ jobs:
               echo "b"
               cd ..
               echo "c"
-              curl  -Ls  -H "Accept: application/vnd.github+json" -H "Authorization: Bearer ${HA_TOKEN}"  $( curl  -H "Accept: application/vnd.github+json" -s https://api.github.com/repos/home-assistant/frontend/actions/artifacts?name=translations | jq -r '.artifacts[0].archive_download_url' ) -o translations.zip
+              curl  -Lv  -H "Accept: application/vnd.github+json" -H "Authorization: Bearer ${HA_TOKEN}"  $( curl  -H "Accept: application/vnd.github+json" -s https://api.github.com/repos/home-assistant/frontend/actions/artifacts?name=translations | jq -r '.artifacts[0].archive_download_url' ) -o translations.zip
               echo "d"
               rm translations.tar.gz || true
               echo "e"
