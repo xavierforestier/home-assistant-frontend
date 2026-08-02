@@ -5,28 +5,15 @@ on:
     - cron: "18 3 * * *"
 
 jobs:
-  translations:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v7
-      - env:
-          HA_TOKEN: ${{ secrets.HA_FRONTEND_TOKEN }}
-        name: Fetch last translation
-        run: |
-          curl  -Ls  -H "Accept: application/vnd.github+json" -H "Authorization: Bearer ${HA_TOKEN}"  $( curl  -H "Accept: application/vnd.github+json" -s https://api.github.com/repos/home-assistant/frontend/actions/artifacts?name=translations | jq -r '.artifacts[0].archive_download_url' ) -o translations.zip
-          rm translations.tar.gz || true
-          unzip translations.zip && rm translations.zip
-          tar -xvf translations.tar.gz
-          XZ_OPT=-9 tar -Jcvf translations.tar.xz translations
-          git config --local user.name "Github automations"
-          git config --local user.email "{ID}+{username}@users.noreply.github.com"
-          git add translations.tar.xz
-          git commit -m "[CI]Update translations" || true
-          git push
   check-new-release:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
+      - name: Remove obsolete releases
+        run: |
+          git config --local user.name "Github automations"
+          git config --local user.email "{ID}+{username}@users.noreply.github.com"
+          
       - name: Check last releases
         run: |
           git config --local user.name "Github automations"
@@ -41,9 +28,15 @@ jobs:
               git branch ${version}
               git pull
               ./setup
-              cd ../..
+              cd ..
+              curl  -Ls  -H "Accept: application/vnd.github+json" -H "Authorization: Bearer ${HA_TOKEN}"  $( curl  -H "Accept: application/vnd.github+json" -s https://api.github.com/repos/home-assistant/frontend/actions/artifacts?name=translations | jq -r '.artifacts[0].archive_download_url' ) -o translations.zip
+              rm translations.tar.gz || true
+              unzip translations.zip && rm translations.zip
+              tar -xvf translations.tar.gz
+              cd ..
               mv frontend "frontend-${version}"
               XZ_OPT=-9 tar -Jcvf /tmp/home-assistant-frontend-${version}-node_modules.tar.xz frontend-${version}/node_modules/
+              XZ_OPT=-9 tar -Jcvf /tmp/home-assistant-frontend-${version}-translations.tar.xz frontend-${version}/translations/
               popd
               mv /tmp/home-assistant-frontend-${version}-node_modules.tar.xz .
               rm -rf /tmp/frontend-${version}
