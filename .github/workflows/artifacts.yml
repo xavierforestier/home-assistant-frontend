@@ -43,12 +43,11 @@ jobs:
               ./setup
               cd ../..
               mv frontend "frontend-${version}"
-              ls && ls *
-              XZ_OPT=-9 tar -Jcvf home-assistant-frontend-${version}-nodes_modules.tar.xz frontend-${version}/nodes_modules/
+              XZ_OPT=-9 tar -Jcvf home-assistant-frontend-${version}-node_modules.tar.xz frontend-${version}/node_modules/
               popd
-              mv /tmp/home-assistant-frontend-${version}-nodes_modules.tar.xz .
+              mv /tmp/home-assistant-frontend-${version}-node_modules.tar.xz .
               rm -rf /tmp/frontend-${version}
-              git add home-assistant-frontend-${version}-nodes_modules.tar.xz
+              git add home-assistant-frontend-${version}-node_modules.tar.xz
               git commit -m "[CI]New release ${version}" || true
             fi
           done
