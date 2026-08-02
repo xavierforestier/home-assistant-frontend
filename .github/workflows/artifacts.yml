@@ -44,6 +44,8 @@ jobs:
               tar -xvf translations.tar.gz
               cd ..
               mv frontend "frontend-${version}"
+              pwd
+              tree
               XZ_OPT=-9 tar -Jcvf /tmp/home-assistant-frontend-${version}-node_modules.tar.xz frontend-${version}/node_modules/
               XZ_OPT=-9 tar -Jcvf /tmp/home-assistant-frontend-${version}-translations.tar.xz frontend-${version}/translations/
               popd
