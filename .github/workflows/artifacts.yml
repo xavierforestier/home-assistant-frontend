@@ -35,6 +35,7 @@ jobs:
               mkdir /tmp/frontend-${version}
               pushd /tmp/frontend-${version}
               git clone https://github.com/home-assistant/frontend.git
+              cd frontend
               git branch ${version}
               git pull
               ./script/setup
