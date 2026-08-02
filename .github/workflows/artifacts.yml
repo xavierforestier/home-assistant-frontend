@@ -21,6 +21,7 @@ jobs:
               git commit -m "[CI]Drop obsolete release ${version}" || true
             fi
           done
+          git push
           
       - name: Check last releases
         run: |
