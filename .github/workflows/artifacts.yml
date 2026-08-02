@@ -1,4 +1,4 @@
-name: Fetch translations
+name: Build artifacts
 on:
   workflow_dispatch:
   schedule:
@@ -25,12 +25,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-      - run: |
+      - name: Check last releases
+        run: |
           git config --local user.name "Github automations"
           git config --local user.email "{ID}+{username}@users.noreply.github.com"
           for rel in $( curl  -H "Accept: application/vnd.github+json" -s https://api.github.com/repos/xavierforestier/HomeAssistantRepository/contents/dev-python/home-assistant-frontend | jq -r '.[] | select(.name | test(".*\\.ebuild$") ) | .name' ); do
             version=$( echo $rel | cut -d- -f4 | rev | cut -d. -f2- | rev)
-            if [ -f "home-assistant-frontend-${version}-nodes_modules.tar.xz" ]; then
+            if [ ! -f "home-assistant-frontend-${version}-nodes_modules.tar.xz" ]; then
               mkdir /tmp/frontend-${version}
               pushd /tmp/frontend-${version}
               git clone https://github.com/home-assistant/frontend.git
