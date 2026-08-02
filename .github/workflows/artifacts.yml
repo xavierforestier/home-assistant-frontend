@@ -52,6 +52,7 @@ jobs:
               mv /tmp/home-assistant-frontend-${version}-node_modules.tar.xz .
               rm -rf /tmp/frontend-${version}
               git add home-assistant-frontend-${version}-node_modules.tar.xz
+              git add home-assistant-frontend-${version}-translations.tar.xz
               git commit -m "[CI]New release ${version}" || true
             fi
           done
