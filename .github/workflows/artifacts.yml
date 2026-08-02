@@ -15,7 +15,7 @@ jobs:
           git config --local user.email "{ID}+{username}@users.noreply.github.com"
           for ebuild in $(find | grep -e "home-assistant-frontend.*-node_modules\.tar\.xz$"); do
             version=$(echo $ebuild | rev | cut -d- -f2 | rev)
-            if [ "$( -o /dev/null -s -w "%{http_code}\n" https://github.com/xavierforestier/HomeAssistantRepository/raw/refs/heads/master/dev-python/home-assistant-frontend/home-assistant-frontend-${version}.ebuild )" = "404" ]; then
+            if [ "$( curl -o /dev/null -s -w "%{http_code}\n" https://github.com/xavierforestier/HomeAssistantRepository/raw/refs/heads/master/dev-python/home-assistant-frontend/home-assistant-frontend-${version}.ebuild )" = "404" ]; then
               git rm "home-assistant-frontend-${version}-nodes_modules.tar.xz" || true
               git rm "home-assistant-frontend-${version}-translations.tar.xz" || true
               git commit -m "[CI]Drop obsolete release ${version}" || true
