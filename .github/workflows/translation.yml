@@ -1,0 +1,12 @@
+name: Fetch translations
+on:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run a multi-line script
+        run: |
+          echo $( curl -s https://api.github.com/repos/home-assistant/frontend/actions/artifacts?name=translations | jq '.artifacts[0].url' )
