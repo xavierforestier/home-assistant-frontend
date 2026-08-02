@@ -7,7 +7,7 @@ This repo is a placeholder to store nodes_modules dependencies for gentoo ebuild
 Enter your repo and copy last version y.z ebuild to the new version :
 ```bash
 cd /var/db/repos/xxx/dev-python/home-assistant-frontend
-cp home-assistant-frontend-y.z.ebuild zigbee2mqtt-a.b.ebuild
+cp home-assistant-frontend-y.z.ebuild home-assistant-frontend-a.b.ebuild
 ```
 
 Now edit new ebuild and comment nodes_modules.tar.xz part in SRC_URI (line 13)
