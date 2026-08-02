@@ -40,10 +40,12 @@ jobs:
               git pull
               ./setup
               cd ..
-              curl  -Ls  -H "Accept: application/vnd.github+json" -H "Authorization: Bearer ${HA_TOKEN}"  $( curl  -H "Accept: application/vnd.github+json" -s https://api.github.com/repos/home-assistant/frontend/actions/artifacts?name=translations | jq -r '.artifacts[0].archive_download_url' ) -o translations.zip
+              curl -H "Accept: application/vnd.github+json" -s https://api.github.com/repos/home-assistant/frontend/actions/artifacts?name=translations | jq -r '.artifacts[0]' > artifact.json
+              curl  -Ls  -H "Accept: application/vnd.github+json" -H "Authorization: Bearer ${HA_TOKEN}"  $( cat artifact.json | jq -r '.archive_download_url' ) -o translations.zip
               rm translations.tar.gz || true
               unzip translations.zip && rm translations.zip
               tar -xf translations.tar.gz
+              mv artifact.json translations/
               cd ..
               mv frontend "frontend-${version}"
               XZ_OPT=-9 tar -Jcf /tmp/home-assistant-frontend-${version}-node_modules.tar.xz frontend-${version}/node_modules/
