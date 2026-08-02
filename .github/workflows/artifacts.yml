@@ -24,6 +24,8 @@ jobs:
           git push
           
       - name: Check last releases
+        env:
+          HA_TOKEN: ${{ secrets.HA_FRONTEND_TOKEN }}
         run: |
           git config --local user.name "Github automations"
           git config --local user.email "{ID}+{username}@users.noreply.github.com"
