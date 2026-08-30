@@ -20,11 +20,13 @@ Go in the extracted source, generate nodes_modules :
 ```bash
 pushd /var/tmp/portage/dev-python/home-assistant-frontend-a.b/work/frontend-a.b/script
 ./setup
+./setup_translations
 ```
-Generate nodes_module-a.b.tar.xz
+Generate node_modules-a.b.tar.xz
 ```bash
 cd ../..
-XZ_OPT=-9 tar -Jcvf home-assistant-frontend-a.b-nodes_modules.tar.xz frontend-a.b/node_modules/
+XZ_OPT=-9 tar -Jcvf home-assistant-frontend-a.b-node_modules.tar.xz frontend-a.b/node_modules/
+XZ_OPT=-9 tar -Jcvf home-assistant-frontend-a.b-translations.tar.xz frontend-a.b/translations/
 ```
 
-Upload node_modules in a release tagged a.b
+Upload .tar.xz archives in main
