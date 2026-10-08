@@ -25,7 +25,7 @@ pushd /var/tmp/portage/dev-python/home-assistant-frontend-a.b/work/frontend-a.b/
 Generate node_modules-a.b.tar.xz
 ```bash
 cd ../..
-XZ_OPT=-9 tar -Jcvf home-assistant-frontend-a.b-node_modules.tar.xz frontend-a.b/node_modules/
+XZ_OPT=-9 tar -Jcvf home-assistant-frontend-a.b-node_modules.tar.xz frontend-a.b/node_modules/ frontend-a.b/pnp-lock.yaml
 XZ_OPT=-9 tar -Jcvf home-assistant-frontend-a.b-translations.tar.xz frontend-a.b/translations/
 ```
 
