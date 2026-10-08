@@ -13,7 +13,7 @@ cp home-assistant-frontend-y.z.ebuild home-assistant-frontend-a.b.ebuild
 Now edit new ebuild and comment nodes_modules.tar.xz part in SRC_URI (line 13)
 Unpack the source :
 ```bash
-ebuild home-assistant-frontend-a.b.ebuild digest clean unpack
+ebuild home-assistant-frontend-a.b.ebuild digest clean prepare
 ```
 
 Go in the extracted source, generate nodes_modules :
