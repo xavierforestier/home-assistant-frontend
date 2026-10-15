@@ -26,7 +26,7 @@ Generate node_modules-a.b.tar.xz
 ```bash
 cd ../..
 XZ_OPT=-9 tar -Jcvf home-assistant-frontend-a.b-node_modules.tar.xz frontend-a.b/node_modules/ frontend-a.b/pnpm-lock.yaml
-XZ_OPT=-9 tar -Jcvf home-assistant-frontend-a.b-translations.tar.xz frontend-a.b/translations/
+XZ_OPT=-9 tar -Jcvf home-assistant-frontend-a.b-translations.tar.xz --exclude="token.json" frontend-a.b/translations/
 ```
 
 Upload .tar.xz archives in main
